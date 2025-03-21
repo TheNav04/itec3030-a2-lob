@@ -10,11 +10,18 @@ import java.util.Set;
 
 import ca.yorku.cmg.lob.security.Security;
 import ca.yorku.cmg.lob.security.SecurityList;
+import ca.yorku.cmg.lob.stockexchange.tradingagent.INewsObserver;
 
 /**
  * A NewsBoard object generates and shares financial/economic events that affect specific securities 
  */
-public class NewsBoard {
+
+
+
+
+//NewsBoard is the source of event
+
+public class NewsBoard extends Subject {
 
 	//Events are queued ordered by time
 	PriorityQueue<Event> eventQueue = new PriorityQueue<>((e1, e2) -> Long.compare(e1.getTime(), e2.getTime()));
@@ -115,9 +122,46 @@ public class NewsBoard {
 	/**
 	 * Stub for the observer part. Runs the entire queue of events and sends notifications to registered trading agents.   
 	 */
+	
+	
+	/*
+	 * The NewsBoard implements a runEventsList() 
+	 * method, in which it takes the queue of events, polls each Event in the 
+	 * queue and dispatches it to TradingAgent objects 
+	 * which have registered for these updates.
+	 * 
+	 */
 	public void runEventsList() {
+		//there is good news and bad news, if good news then by, if bad news then sell
+		//we need to create a person class here as a middle man
+		
+		/*
+		for(int i = 0; i < eventQueue.size(); i++) {
+			Event e = eventQueue.poll();
+			
+			
+			notifyObservers(e);
 
+		}
+		*/
+		
+		while(eventQueue.peek() != null) {
+			Event e = eventQueue.poll();
+			
+			notifyObservers(e);
+		}
 	}
+
+
+	@Override
+	public void notifySingleObserver(INewsObserver x, Event e) {
+		x.update(e);
+		
+	}
+
+	
+
+	
 	
 	
 	

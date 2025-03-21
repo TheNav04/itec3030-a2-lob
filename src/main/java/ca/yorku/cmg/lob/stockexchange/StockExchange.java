@@ -14,14 +14,18 @@ import ca.yorku.cmg.lob.orderbook.Trade;
 import ca.yorku.cmg.lob.security.Security;
 import ca.yorku.cmg.lob.security.SecurityList;
 import ca.yorku.cmg.lob.stockexchange.events.NewsBoard;
+import ca.yorku.cmg.lob.stockexchange.tradingagent.AbstractTradingAgentFactory;
+import ca.yorku.cmg.lob.stockexchange.tradingagent.ConservativeTrading;
 import ca.yorku.cmg.lob.stockexchange.tradingagent.TradingAgent;
-import ca.yorku.cmg.lob.stockexchange.tradingagent.TradingAgentAggressive;
-import ca.yorku.cmg.lob.stockexchange.tradingagent.TradingAgentConservative;
+import ca.yorku.cmg.lob.stockexchange.tradingagent.TradingAgentFactory;
 import ca.yorku.cmg.lob.trader.Trader;
 import ca.yorku.cmg.lob.trader.TraderInstitutional;
 import ca.yorku.cmg.lob.trader.TraderRetail;
 import ca.yorku.cmg.lob.tradestandards.IOrder;
 
+
+//import ca.yorku.cmg.lob.stockexchange.tradingagent.TradingAgentAggressive;
+//import ca.yorku.cmg.lob.stockexchange.tradingagent.TradingAgentConservative;
 /**
  * Represents a stock exchange that manages securities, accounts, orders, and trades.
  */
@@ -38,6 +42,9 @@ public class StockExchange {
 		private ArrayList<IOrder> log = new ArrayList<>();
 		
 		private Map<String, Integer> prices = new HashMap<String, Integer>();
+		
+		//object factory
+		AbstractTradingAgentFactory factory = new TradingAgentFactory();
 					
 		long totalFees = 0;
 
@@ -183,11 +190,20 @@ public class StockExchange {
 	                    } else {
 	                    	accounts.addAccount(new AccountPro(t,initBalance));
 	                    }
-	                    if (tradingStyle.equals("Conservative")) {
-	                    	traders.add(new TradingAgentConservative(t,this,newsDesk));
-	                    } else {
-	                    	traders.add(new TradingAgentAggressive(t,this,newsDesk));
-	                    }
+	                    //use factory in trading agent package to replace old constructor
+	                    //create factory object in the class
+	                    //if (tradingStyle.equals("Conservative")) {
+	                    	
+	                    //public TradingAgent createAgent(String type, String style, Trader t, 
+	            			//StockExchange e, NewsBoard n) {
+	                    	
+	                    	
+	                    	//public TradingAgentAggressive(Trader t, StockExchange e, NewsBoard n) {
+	                    	traders.add(factory.createAgent(traderType, 
+	                    				tradingStyle, t, this, newsDesk));
+	                   // } else {
+	                    	//traders.add(new TradingAgentAggressive(t,this,newsDesk));
+	                    //}
 	                    
 	                } else {
 	                    System.err.println("Skipping malformed line (two few attributes): " + line);

@@ -14,5 +14,14 @@ public abstract class AbstractTradingAgentFactory {
 	 * @param n Reference to the  {@linkplain NewsBoard} object that {@linkplain TradingAgent} will hear news from.
 	 * @return A  {@linkplain TradingAgent} object constructed according to specified parameters.
 	 */
-	public abstract TradingAgent createAgent(String type, String style, Trader t, StockExchange e, NewsBoard n); 
+	
+	//The method void readAccountsListFromFile(String) 
+	//in StockExchange will need to be updated/simplified to utilize the factory.
+	
+	//AbstractTradingAgentFactory should be used as part of the solution and not changed. 
+	public abstract TradingAgent createAgent(String type, String style, Trader t, 
+			StockExchange e, NewsBoard n);
+	
+	//where type is one of "Institutional" or "Retail" and style one of "Conservative" 
+		//or "Aggressive".
 }

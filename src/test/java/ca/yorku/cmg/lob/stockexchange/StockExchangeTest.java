@@ -66,7 +66,7 @@ class StockExchangeTest {
 	}
 
 	/**
-	 * This test should always pass.
+	 * This test should always pass. For the observer part
 	 */
 	@Test
 	void pollingTest() {

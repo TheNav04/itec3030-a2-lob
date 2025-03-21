@@ -6,6 +6,8 @@ import ca.yorku.cmg.lob.security.Security;
 /**
  * A news event to come out of the {@linkplain NewsBoard}. It is associated with a specific {@linkplain Security}. For example if may be a release of the company's earnings, or a political or macroeconomic event that is understood to influence the price of the Security.   
  */
+
+
 public abstract class Event {
 	protected long time;
 	protected Security security;
